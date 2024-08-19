@@ -10,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
     final user = supabase.auth.currentUser;
     final profileImageUrl = user?.userMetadata?['avatar_url'];
     final fullName = user?.userMetadata?['full_name'];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
