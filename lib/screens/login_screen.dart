@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _setupAuthListener() {
     supabase.auth.onAuthStateChange.listen((data) {
       final event = data.event;
+      print("Auth state changed to $event");
       if (event == AuthChangeEvent.signedIn) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -29,6 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     });
+  }
+
+  Future<void> signInWithFacebook() async {
+    print(await supabase.auth.signInWithOAuth(OAuthProvider.facebook));
   }
 
   Future<AuthResponse> _googleSignIn() async {
@@ -77,9 +82,18 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Login'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: _googleSignIn,
-          child: const Text('Google login mn'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _googleSignIn,
+              child: const Text('Google login'),
+            ),
+            ElevatedButton(
+              onPressed: signInWithFacebook,
+              child: const Text('Facebook login '),
+            ),
+          ],
         ),
       ),
     );
